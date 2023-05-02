@@ -38,6 +38,7 @@ class StartScreen extends StatelessWidget {
             OutlinedButton.icon(
               onPressed: startScanner,
               style: OutlinedButton.styleFrom(
+                backgroundColor: const Color.fromARGB(255, 33, 1, 95),
                 foregroundColor: Colors.white,
               ),
               icon: const Icon(Icons.arrow_forward_ios),
