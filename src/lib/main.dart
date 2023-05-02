@@ -1,12 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:src/start_screen.dart';
+import 'package:src/scanner.dart';
 
 void main(List<String> args) {
-  runApp(
-    const MaterialApp(
-      home: Scaffold(
-        body: StartScreen(),
-      ),
-    ),
-  );
+  runApp(const Scanner());
 }
