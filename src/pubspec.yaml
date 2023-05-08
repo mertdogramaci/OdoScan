@@ -71,7 +71,6 @@ flutter:
     - assets/
     - assets/labels.txt
     - assets/yolov8n.tflite
-    - assets/tessdata/
     - assets/images/speedometer-clipart-design-illustration-free-png.webp
   
 flutter_icons:
