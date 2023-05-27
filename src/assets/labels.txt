@@ -1,0 +1,9 @@
+lcdpanel
+analogpanel
+computerpanel
+gauge
+km
+miles
+km/h
+mph
+odo
