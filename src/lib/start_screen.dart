@@ -94,6 +94,8 @@ class YoloVideo extends StatefulWidget {
   State<YoloVideo> createState() => _YoloVideoState();
 }
 
+
+
 class _YoloVideoState extends State<YoloVideo> {
   late CameraController controller;
   late FlutterVision vision;
@@ -118,7 +120,7 @@ class _YoloVideoState extends State<YoloVideo> {
   init() async {
     cameras = await availableCameras();
     vision = FlutterVision();
-    controller = CameraController(cameras[0], ResolutionPreset.low);
+    controller = CameraController(cameras[0], ResolutionPreset.high);
     await controller.initialize();
     await loadYoloModel();
     setState(() {
@@ -128,30 +130,65 @@ class _YoloVideoState extends State<YoloVideo> {
     });
     startDetection(); // Start image stream
   }
-
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
-    // if (!isLoaded) {
-    //   return const Scaffold(
-    //     body: Center(
-    //       child: Text("Model not loaded, waiting for it"),
-    //     ),
-    //   );
-    // }
+    final double previewSquareSize = size.width < size.height ? size.width : size.height;
+    final double xOffset = (size.width - previewSquareSize) / 2;
+    final double yOffset = (size.height - previewSquareSize) / 2;
+
+    if (!isLoaded) {
+      return const Scaffold(
+        body: Center(
+          child: Text("Waiting for the model to be loaded"),
+        ),
+      );
+    }
     return Stack(
       fit: StackFit.expand,
       children: [
-        AspectRatio(
-          aspectRatio: controller.value.aspectRatio,
-          child: CameraPreview(
-            controller,
+        Positioned(
+          left: xOffset,
+          top: yOffset,
+          width: previewSquareSize,
+          height: previewSquareSize,
+          child: AspectRatio(
+            aspectRatio: 1.0, // Set aspect ratio to 1 for a square shape
+            child: CameraPreview(
+              controller,
+            ),
           ),
         ),
-        ...displayBoxesAroundRecognizedObjects(size),
+        ...displayBoxesAroundRecognizedObjects(size, xOffset, yOffset, previewSquareSize),
       ],
     );
   }
+
+
+
+  // @override
+  // Widget build(BuildContext context) {
+  //   final Size size = MediaQuery.of(context).size;
+  //   // if (!isLoaded) {
+  //   //   return const Scaffold(
+  //   //     body: Center(
+  //   //       child: Text("Model not loaded, waiting for it"),
+  //   //     ),
+  //   //   );
+  //   // }
+  //   return Stack(
+  //     fit: StackFit.expand,
+  //     children: [
+  //       AspectRatio(
+  //         aspectRatio: controller.value.aspectRatio,
+  //         child: CameraPreview(
+  //           controller,
+  //         ),
+  //       ),
+  //       ...displayBoxesAroundRecognizedObjects(size),
+  //     ],
+  //   );
+  // }
 
   Future<void> loadYoloModel() async {
     await vision.loadYoloModel(
@@ -195,17 +232,17 @@ class _YoloVideoState extends State<YoloVideo> {
     });
   }
 
-  List<Widget> displayBoxesAroundRecognizedObjects(Size screen) {
+  List<Widget> displayBoxesAroundRecognizedObjects(Size screen, double xOffset, double yOffset, double previewSquareSize) {
     if (yoloResults.isEmpty) return [];
-    double factorX = screen.width / (cameraImage?.height ?? 1);
-    double factorY = screen.height / (cameraImage?.width ?? 1);
+    double factorX = previewSquareSize / (cameraImage?.height ?? 1);
+    double factorY = previewSquareSize / (cameraImage?.width ?? 1);
 
     Color colorPick = Color.fromARGB(255, 55, 20, 255);
 
     return yoloResults.map((result) {
       return Positioned(
-        left: result["box"][0] * factorX,
-        top: result["box"][1] * factorY,
+        left: xOffset + result["box"][0] * factorX,
+        top: yOffset + result["box"][1] * factorY,
         width: (result["box"][2] - result["box"][0]) * factorX,
         height: (result["box"][3] - result["box"][1]) * factorY,
         child: Container(
@@ -218,13 +255,51 @@ class _YoloVideoState extends State<YoloVideo> {
             style: TextStyle(
               background: Paint()..color = colorPick,
               color: Colors.white,
-              fontSize: 11.0,
+              fontSize: 6,
             ),
           ),
         ),
       );
     }).toList();
   }
+
+
+
+
+
+
+
+
+  // List<Widget> displayBoxesAroundRecognizedObjects(Size screen) {
+  //   if (yoloResults.isEmpty) return [];
+  //   double factorX = screen.width / (cameraImage?.height ?? 1);
+  //   double factorY = screen.height / (cameraImage?.width ?? 1);
+
+  //   Color colorPick = Color.fromARGB(255, 55, 20, 255);
+
+  //   return yoloResults.map((result) {
+  //     return Positioned(
+  //       left: result["box"][0] * factorX,
+  //       top: result["box"][1] * factorY,
+  //       width: (result["box"][2] - result["box"][0]) * factorX,
+  //       height: (result["box"][3] - result["box"][1]) * factorY,
+  //       child: Container(
+  //         decoration: BoxDecoration(
+  //           borderRadius: const BorderRadius.all(Radius.circular(4.0)),
+  //           border: Border.all(color: Color.fromARGB(255, 255, 0, 0), width: 2.0),
+  //         ),
+  //         child: Text(
+  //           "${result['tag']} ${(result['box'][4] * 100).toStringAsFixed(0)}%",
+  //           style: TextStyle(
+  //             background: Paint()..color = colorPick,
+  //             color: Colors.white,
+  //             fontSize: 6,
+  //           ),
+  //         ),
+  //       ),
+  //     );
+  //   }).toList();
+  // }
 }
 
 class YoloImage extends StatefulWidget {
@@ -240,12 +315,18 @@ class _YoloImageState extends State<YoloImage> {
   File? imageFile;
   int imageHeight = 1;
   int imageWidth = 1;
+  bool isLoaded = false;
 
   @override
   void initState() {
     super.initState();
     vision = FlutterVision();
-    loadYoloModel();
+    loadYoloModel().then((value) {
+      setState(() {
+        yoloResults = [];
+        isLoaded = true;
+      });
+    });
   }
 
   @override
@@ -257,6 +338,13 @@ class _YoloImageState extends State<YoloImage> {
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
+    if (!isLoaded) {
+      return const Scaffold(
+        body: Center(
+          child: Text("Waiting for the model to be loaded"),
+        ),
+      );
+    }
     return Stack(
       fit: StackFit.expand,
       children: [
@@ -282,8 +370,7 @@ class _YoloImageState extends State<YoloImage> {
       useGpu: false,
     );
     setState(() {
-      yoloResults = [];
-      imageFile = null;
+      isLoaded = true;
     });
   }
 
@@ -346,7 +433,7 @@ class _YoloImageState extends State<YoloImage> {
             style: TextStyle(
               background: Paint()..color = colorPick,
               color: Colors.white,
-              fontSize: 11.0,
+              fontSize: 6,
             ),
           ),
         ),
