@@ -29,7 +29,7 @@ function OdometerLogsOfVehiclePage() {
       <header className="App-header">
         <div className="App-intro">
           <AppNavbar/>
-          <h2>Odometer Logs For Vehicle: {vehicle.brand} {vehicle.model}</h2>
+          <h2>Odometer Logs For Vehicle: <br/> {vehicle.brand} {vehicle.model}</h2>
           <OdometerLogTable odometerLogs={odometerLogs} setOdometerLogs={setOdometerLogs}/>
           <Button tag={Link} to={"/vehicle/create"}>Add Vehicle</Button>
         </div>
