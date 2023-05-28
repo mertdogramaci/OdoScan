@@ -32,17 +32,21 @@ public class User {
     @Column(name = "address")
     private String address;
 
+    @Column(name = "device_id")
+    private String device_id;
+
     @OneToMany
     @JoinColumn(name = "vehicles", referencedColumnName = "id")
     @ToString.Exclude
     private List<Vehicle> vehicles;
 
-    public User(String name, String surname, String phone, String mail, String address) {
+    public User(String name, String surname, String phone, String mail, String address, String device_id) {
         this.name = name;
         this.surname = surname;
         this.phone = phone;
         this.mail = mail;
         this.address = address;
+        this.device_id = device_id;
     }
 
     public void addVehicle(Vehicle vehicle) {

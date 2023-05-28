@@ -31,11 +31,11 @@ public class DatabasePopulator {
     @Transactional
     public void populateDatabase() {
         userService.createUser(new User("Mert", "Doğramacı", "05425252477",
-                "mertdogramaci@gmail.com", "Eskişehir, Turkey"));
+                "mertdogramaci@gmail.com", "Eskişehir, Turkey", "7e5a1e29b7c0dc72"));
         userService.createUser(new User("Melih", "Aksoy", "05306084020",
-                "melihaksoy@gmail.com", "Ankara, Turkey"));
+                "melihaksoy@gmail.com", "Ankara, Turkey", "2c82e09a9b7c7f85"));
         userService.createUser(new User("Ali Aykut", "Arık", "05437251435",
-                "aliaykutarik@gmail.com", "Etimesgut, Ankara, Turkey"));
+                "aliaykutarik@gmail.com", "Etimesgut, Ankara, Turkey", "0cf4afd417055843"));
 
 
         User user1 = userService.getUserById(1L).orElseThrow(
