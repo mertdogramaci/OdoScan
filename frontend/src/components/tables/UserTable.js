@@ -41,7 +41,7 @@ function UserTable(probs) {
                             <th>{user.phone}</th>
                             <th>{user.mail}</th>
                             <th>{user.address}</th>
-                            <th>{user.device_id}</th>
+                            <th>{user.deviceId}</th>
                             <th>
                                 <Button size="sm" color="primary" tag={Link} to={"/vehicle/userId/" + user.id}>Show Vehicles</Button>
                             </th>
