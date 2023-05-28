@@ -1,6 +1,7 @@
 package com.rockofmam.OdoScan.controller;
 
 import com.rockofmam.OdoScan.model.OdometerLog;
+import com.rockofmam.OdoScan.model.Vehicle;
 import com.rockofmam.OdoScan.service.OdometerLogService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -41,5 +42,10 @@ public class OdometerLogController {
     public ResponseEntity<?> deleteOdometerLog(@PathVariable Long id) {
         odometerLogService.deleteOdometerLogById(id);
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/vehicleId/{vehicleId}")
+    public ResponseEntity<List<OdometerLog>> getAllOdometerLogsOfVehicle(@PathVariable Long vehicleId) {
+        return ResponseEntity.ok(odometerLogService.getAllOdometerLogsOfVehicle(vehicleId));
     }
 }

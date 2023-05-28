@@ -2,9 +2,11 @@ package com.rockofmam.OdoScan.service;
 
 import com.rockofmam.OdoScan.exception.OdometerLogNotFoundException;
 import com.rockofmam.OdoScan.model.OdometerLog;
+import com.rockofmam.OdoScan.model.Vehicle;
 import com.rockofmam.OdoScan.repository.OdometerLogRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -48,5 +50,18 @@ public class OdometerLogService {
 
     public void deleteOdometerLogById(Long id) {
         odometerLogRepository.deleteById(id);
+    }
+
+    public List<OdometerLog> getAllOdometerLogsOfVehicle(Long vehicleId) {
+        List<OdometerLog> allOdometerLogs = odometerLogRepository.findAll();
+        List<OdometerLog> allOdometerLogsOfVehicle = new ArrayList<>();
+
+        for (OdometerLog odometerLog: allOdometerLogs) {
+            if (odometerLog.getVehicle().getId().equals(vehicleId)) {
+                allOdometerLogsOfVehicle.add(odometerLog);
+            }
+        }
+
+        return allOdometerLogsOfVehicle;
     }
 }
