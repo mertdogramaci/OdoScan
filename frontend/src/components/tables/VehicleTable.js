@@ -40,7 +40,9 @@ function VehicleTable(probs) {
                             <th>{vehicle.model}</th>
                             <th>{vehicle.purchaseYear}</th>
                             <th>{vehicle.user.name} {vehicle.user.surname}</th>
-                            <th></th>
+                            <th>
+                                <Button size="sm" color="primary" tag={Link} to={"/odometerLog/vehicleId/" + vehicle.id}>Show Odometer Logs</Button>
+                            </th>
                             <th>
                                 <ButtonGroup>
                                     <Button size="sm" color="primary" tag={Link} to={"/vehicle/" + vehicle.id}>Edit</Button>
