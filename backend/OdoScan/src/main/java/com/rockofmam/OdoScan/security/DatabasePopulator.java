@@ -21,7 +21,8 @@ public class DatabasePopulator {
 
     private final OdometerLogService odometerLogService;
 
-    public DatabasePopulator(UserService userService, VehicleService vehicleService, OdometerLogService odometerLogService) {
+    public DatabasePopulator(UserService userService, VehicleService vehicleService,
+                             OdometerLogService odometerLogService) {
         this.userService = userService;
         this.vehicleService = vehicleService;
         this.odometerLogService = odometerLogService;
