@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Objects;
 
 @Entity
-@Table(name = "vehicle")
+@Table(name = "vehicles")
 @Getter
 @Setter
 @ToString
@@ -31,7 +31,7 @@ public class Vehicle {
     @Column(name = "purchase_year")
     private Year purchaseYear;
 
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.ALL})
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
 

@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
-@Table(name = "odometer_log")
+@Table(name = "odometer_logs")
 @Getter
 @Setter
 @ToString
@@ -21,7 +21,7 @@ public class OdometerLog {
     @Column(name = "unit")
     private Unit unit;
 
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.ALL})
     @JoinColumn(name = "vehicle_id")
     private Vehicle vehicle;
 
