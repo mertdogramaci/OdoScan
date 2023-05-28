@@ -1,6 +1,5 @@
 package com.rockofmam.OdoScan.model;
 
-import com.rockofmam.OdoScan.enums.Brand;
 import com.rockofmam.OdoScan.enums.VehicleType;
 import jakarta.persistence.*;
 import lombok.*;
@@ -10,12 +9,11 @@ import java.util.List;
 import java.util.Objects;
 
 @Entity
-@Table(name = "vehicle")
+@Table(name = "vehicles")
 @Getter
 @Setter
 @ToString
 @NoArgsConstructor
-@AllArgsConstructor
 public class Vehicle {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,7 +23,7 @@ public class Vehicle {
     private VehicleType vehicleType;
 
     @Column(name = "brand")
-    private Brand brand;
+    private String brand;
 
     @Column(name = "model")
     private String model;
@@ -33,7 +31,7 @@ public class Vehicle {
     @Column(name = "purchase_year")
     private Year purchaseYear;
 
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.ALL})
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
 
@@ -41,6 +39,18 @@ public class Vehicle {
     @JoinColumn(name = "odometer_log_id", referencedColumnName = "id")
     @ToString.Exclude
     private List<OdometerLog> odometerLogs;
+
+    public Vehicle(VehicleType vehicleType, String brand, String model, Year purchaseYear, User user) {
+        this.vehicleType = vehicleType;
+        this.brand = brand;
+        this.model = model;
+        this.purchaseYear = purchaseYear;
+        this.user = user;
+    }
+
+    public void addOdometerLog(OdometerLog odometerLog) {
+        odometerLogs.add(odometerLog);
+    }
 
     @Override
     public boolean equals(Object o) {
