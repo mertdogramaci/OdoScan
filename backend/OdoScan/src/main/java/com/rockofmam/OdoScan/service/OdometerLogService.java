@@ -38,7 +38,7 @@ public class OdometerLogService {
         OdometerLog odometerLog1 = findOdometerLogById(odometerLogId);
 
         if (odometerLog1.getId() != null) {
-            odometerLog1.setOdometer_reading(odometerLog.getOdometer_reading());
+            odometerLog1.setOdometerReading(odometerLog.getOdometerReading());
             odometerLog1.setUnit(odometerLog.getUnit());
             odometerLog1.setVehicle(odometerLog.getVehicle());
         }
