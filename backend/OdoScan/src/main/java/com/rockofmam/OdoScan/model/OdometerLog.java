@@ -10,7 +10,6 @@ import lombok.*;
 @Setter
 @ToString
 @NoArgsConstructor
-@AllArgsConstructor
 public class OdometerLog {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,6 +24,12 @@ public class OdometerLog {
     @ManyToOne
     @JoinColumn(name = "vehicle_id")
     private Vehicle vehicle;
+
+    public OdometerLog(Long odometer_reading, Unit unit, Vehicle vehicle) {
+        this.odometer_reading = odometer_reading;
+        this.unit = unit;
+        this.vehicle = vehicle;
+    }
 
     @Override
     public boolean equals(Object o) {

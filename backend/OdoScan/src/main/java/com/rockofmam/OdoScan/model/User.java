@@ -13,7 +13,6 @@ import java.util.Objects;
 @Setter
 @ToString
 @NoArgsConstructor
-@AllArgsConstructor
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -38,6 +37,18 @@ public class User {
     @JoinColumn(name = "vehicle_id", referencedColumnName = "id")
     @ToString.Exclude
     private List<Vehicle> vehicles;
+
+    public User(String name, String surname, String phone, String mail, String address) {
+        this.name = name;
+        this.surname = surname;
+        this.phone = phone;
+        this.mail = mail;
+        this.address = address;
+    }
+
+    public void addVehicle(Vehicle vehicle) {
+        vehicles.add(vehicle);
+    }
 
     @Override
     public boolean equals(Object o) {
