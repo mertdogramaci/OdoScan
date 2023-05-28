@@ -4,6 +4,8 @@ import com.rockofmam.OdoScan.enums.Unit;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.Date;
+
 @Entity
 @Table(name = "odometer_logs")
 @Getter
@@ -21,13 +23,17 @@ public class OdometerLog {
     @Column(name = "unit")
     private Unit unit;
 
+    @Column(name = "record_date")
+    private Date record_date;
+
     @ManyToOne(cascade = {CascadeType.ALL})
     @JoinColumn(name = "vehicle_id")
     private Vehicle vehicle;
 
-    public OdometerLog(Long odometer_reading, Unit unit, Vehicle vehicle) {
+    public OdometerLog(Long odometer_reading, Unit unit, Date record_date, Vehicle vehicle) {
         this.odometer_reading = odometer_reading;
         this.unit = unit;
+        this.record_date = record_date;
         this.vehicle = vehicle;
     }
 
@@ -41,6 +47,7 @@ public class OdometerLog {
         if (!id.equals(that.id)) return false;
         if (!odometer_reading.equals(that.odometer_reading)) return false;
         if (unit != that.unit) return false;
+        if (!record_date.equals(that.record_date)) return false;
         return vehicle.equals(that.vehicle);
     }
 
@@ -49,6 +56,7 @@ public class OdometerLog {
         int result = id.hashCode();
         result = 31 * result + odometer_reading.hashCode();
         result = 31 * result + unit.hashCode();
+        result = 31 * result + record_date.hashCode();
         result = 31 * result + vehicle.hashCode();
         return result;
     }
