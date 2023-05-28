@@ -5,6 +5,7 @@ import UsersPage from './components/pages/UsersPage';
 import HomePage from './components/pages/HomePage';
 import VehiclesPage from './components/pages/VehiclesPage';
 import VehiclesOfUserPage from './components/pages/VehiclesOfUserPage';
+import OdometerLogsPage from './components/pages/OdometerLogsPage';
 
 
 function App() {
@@ -16,6 +17,7 @@ function App() {
           <Route exact element={<UsersPage />} path={"/user"} />
           <Route exact element={<VehiclesPage />} path={"/vehicle"}/>
           <Route exact element={<VehiclesOfUserPage />} path={"/vehicle/userId/:id"}/>
+          <Route exact element={<OdometerLogsPage />} path={"/odometerLog"}/>
         </Routes>
       </BrowserRouter>
     </div>

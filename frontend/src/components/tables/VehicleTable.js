@@ -11,7 +11,7 @@ function VehicleTable(probs) {
             'Content-Type': 'application/json'
           }
         }).then(() => {
-          const updatedVehicles = [...probs.users].filter(i => i.id !== id);
+          const updatedVehicles = [...probs.vehicles].filter(i => i.id !== id);
           probs.setVehicles(updatedVehicles);
         });
     }
