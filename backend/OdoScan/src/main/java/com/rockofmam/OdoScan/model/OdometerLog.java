@@ -4,7 +4,7 @@ import com.rockofmam.OdoScan.enums.Unit;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "odometer_logs")
@@ -24,13 +24,13 @@ public class OdometerLog {
     private Unit unit;
 
     @Column(name = "record_date")
-    private Date recordDate;
+    private LocalDate recordDate;
 
     @ManyToOne(cascade = {CascadeType.ALL})
     @JoinColumn(name = "vehicle_id")
     private Vehicle vehicle;
 
-    public OdometerLog(Long odometerReading, Unit unit, Date recordDate, Vehicle vehicle) {
+    public OdometerLog(Long odometerReading, Unit unit, LocalDate recordDate, Vehicle vehicle) {
         this.odometerReading = odometerReading;
         this.unit = unit;
         this.recordDate = recordDate;
