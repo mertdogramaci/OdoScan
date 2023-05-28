@@ -48,10 +48,10 @@ public class DatabasePopulator {
                 () -> new UserNotFoundException("User could not found by id: " + 3L)
         );
 
-        vehicleService.createVehicle(new Vehicle(VehicleType.CAR, "Audi", "A5", Year.now(), user1));
-        vehicleService.createVehicle(new Vehicle(VehicleType.MOTORCYCLE, "Ducati", "SuperSport 950 S",
+        vehicleService.createVehicle(new Vehicle(VehicleType.Car, "Audi", "A5", Year.now(), user1));
+        vehicleService.createVehicle(new Vehicle(VehicleType.Motorcycle, "Ducati", "SuperSport 950 S",
                 Year.of(2018), user2));
-        vehicleService.createVehicle(new Vehicle(VehicleType.CAR, "Opel", "Astra", Year.of(2020),
+        vehicleService.createVehicle(new Vehicle(VehicleType.Car, "Opel", "Astra", Year.of(2020),
                 user3));
     }
 }
