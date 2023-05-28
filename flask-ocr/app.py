@@ -5,6 +5,7 @@ from ultralytics.yolo.utils.plotting import Annotator
 from PIL import Image
 import numpy as np
 import paddleocr
+import re
 
 model = YOLO('static/bests.pt')
 
@@ -14,6 +15,9 @@ app = Flask(__name__)
 @app.route('/detect', methods=['POST'])
 def detect():
     file = request.files['image']
+    device_id = request.form['device_id']
+
+    print(device_id)
 
     # Load an image using PIL
     im1 = Image.open(file)
@@ -65,9 +69,14 @@ def detect():
     ocr = paddleocr.PaddleOCR(lang="en")
 
     # Perform OCR on the cropped image
-    ocr_result = ocr.ocr(crop_img)
+    ocr_results = ocr.ocr(crop_img)
 
-    return jsonify(ocr_result)
+    str_result = "".join(result[1][0] for result in ocr_results[0])
+
+    # Get only the numbers from the OCR result using regex
+    milage = re.findall(r'\d+', str_result)[0]
+
+    return jsonify(milage=milage, device_id=device_id)
 
 
 if __name__ == '__main__':
