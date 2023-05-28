@@ -33,7 +33,7 @@ public class User {
     private String address;
 
     @OneToMany
-    @JoinColumn(name = "vehicle_id", referencedColumnName = "id")
+    @JoinColumn(name = "vehicles", referencedColumnName = "id")
     @ToString.Exclude
     private List<Vehicle> vehicles;
 
