@@ -5,6 +5,7 @@ import com.rockofmam.OdoScan.model.Vehicle;
 import com.rockofmam.OdoScan.repository.VehicleRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -51,5 +52,18 @@ public class VehicleService {
 
     public void deleteVehicleById(Long id) {
         vehicleRepository.deleteById(id);
+    }
+
+    public List<Vehicle> getAllVehiclesOfUser(Long userId) {
+        List<Vehicle> allVehicles = vehicleRepository.findAll();
+        List<Vehicle> allVehiclesOfUser = new ArrayList<>();
+
+        for (Vehicle vehicle: allVehicles) {
+            if (vehicle.getUser().getId().equals(userId)) {
+                allVehiclesOfUser.add(vehicle);
+            }
+        }
+
+        return allVehiclesOfUser;
     }
 }
