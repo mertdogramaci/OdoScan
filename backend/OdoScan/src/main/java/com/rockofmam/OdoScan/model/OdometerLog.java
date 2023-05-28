@@ -24,16 +24,16 @@ public class OdometerLog {
     private Unit unit;
 
     @Column(name = "record_date")
-    private Date record_date;
+    private Date recordDate;
 
     @ManyToOne(cascade = {CascadeType.ALL})
     @JoinColumn(name = "vehicle_id")
     private Vehicle vehicle;
 
-    public OdometerLog(Long odometerReading, Unit unit, Date record_date, Vehicle vehicle) {
+    public OdometerLog(Long odometerReading, Unit unit, Date recordDate, Vehicle vehicle) {
         this.odometerReading = odometerReading;
         this.unit = unit;
-        this.record_date = record_date;
+        this.recordDate = recordDate;
         this.vehicle = vehicle;
     }
 
@@ -47,7 +47,7 @@ public class OdometerLog {
         if (!id.equals(that.id)) return false;
         if (!odometerReading.equals(that.odometerReading)) return false;
         if (unit != that.unit) return false;
-        if (!record_date.equals(that.record_date)) return false;
+        if (!recordDate.equals(that.recordDate)) return false;
         return vehicle.equals(that.vehicle);
     }
 
@@ -56,7 +56,7 @@ public class OdometerLog {
         int result = id.hashCode();
         result = 31 * result + odometerReading.hashCode();
         result = 31 * result + unit.hashCode();
-        result = 31 * result + record_date.hashCode();
+        result = 31 * result + recordDate.hashCode();
         result = 31 * result + vehicle.hashCode();
         return result;
     }
