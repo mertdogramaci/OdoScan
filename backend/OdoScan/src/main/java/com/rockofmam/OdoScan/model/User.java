@@ -33,20 +33,20 @@ public class User {
     private String address;
 
     @Column(name = "device_id")
-    private String device_id;
+    private String deviceId;
 
     @OneToMany
     @JoinColumn(name = "vehicles", referencedColumnName = "id")
     @ToString.Exclude
     private List<Vehicle> vehicles;
 
-    public User(String name, String surname, String phone, String mail, String address, String device_id) {
+    public User(String name, String surname, String phone, String mail, String address, String deviceId) {
         this.name = name;
         this.surname = surname;
         this.phone = phone;
         this.mail = mail;
         this.address = address;
-        this.device_id = device_id;
+        this.deviceId = deviceId;
     }
 
     public void addVehicle(Vehicle vehicle) {
@@ -66,6 +66,7 @@ public class User {
         if (!Objects.equals(phone, user.phone)) return false;
         if (!Objects.equals(mail, user.mail)) return false;
         if (!Objects.equals(address, user.address)) return false;
+        if (!deviceId.equals(user.deviceId)) return false;
         return Objects.equals(vehicles, user.vehicles);
     }
 
@@ -77,6 +78,7 @@ public class User {
         result = 31 * result + (phone != null ? phone.hashCode() : 0);
         result = 31 * result + (mail != null ? mail.hashCode() : 0);
         result = 31 * result + (address != null ? address.hashCode() : 0);
+        result = 31 * result + deviceId.hashCode();
         result = 31 * result + (vehicles != null ? vehicles.hashCode() : 0);
         return result;
     }

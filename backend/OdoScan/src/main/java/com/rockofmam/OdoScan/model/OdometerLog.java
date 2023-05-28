@@ -18,7 +18,7 @@ public class OdometerLog {
     private Long id;
 
     @Column(name = "odometer_reading")
-    private Long odometer_reading;
+    private Long odometerReading;
 
     @Column(name = "unit")
     private Unit unit;
@@ -30,8 +30,8 @@ public class OdometerLog {
     @JoinColumn(name = "vehicle_id")
     private Vehicle vehicle;
 
-    public OdometerLog(Long odometer_reading, Unit unit, Date record_date, Vehicle vehicle) {
-        this.odometer_reading = odometer_reading;
+    public OdometerLog(Long odometerReading, Unit unit, Date record_date, Vehicle vehicle) {
+        this.odometerReading = odometerReading;
         this.unit = unit;
         this.record_date = record_date;
         this.vehicle = vehicle;
@@ -45,7 +45,7 @@ public class OdometerLog {
         OdometerLog that = (OdometerLog) o;
 
         if (!id.equals(that.id)) return false;
-        if (!odometer_reading.equals(that.odometer_reading)) return false;
+        if (!odometerReading.equals(that.odometerReading)) return false;
         if (unit != that.unit) return false;
         if (!record_date.equals(that.record_date)) return false;
         return vehicle.equals(that.vehicle);
@@ -54,7 +54,7 @@ public class OdometerLog {
     @Override
     public int hashCode() {
         int result = id.hashCode();
-        result = 31 * result + odometer_reading.hashCode();
+        result = 31 * result + odometerReading.hashCode();
         result = 31 * result + unit.hashCode();
         result = 31 * result + record_date.hashCode();
         result = 31 * result + vehicle.hashCode();
