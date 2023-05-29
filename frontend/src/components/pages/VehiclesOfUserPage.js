@@ -33,6 +33,7 @@ function VehiclesOfUserPage() {
           <Button tag={Link} to={"/vehicle/create"}>Add Vehicle</Button>
         </div>
       </header>
+      <footer>Copyright © 2023 Rock of MAM</footer>
     </div>
   );
 }

@@ -88,6 +88,7 @@ function EditUser() {
                     </FormGroup>
                 </Form>
             </Container>
+            <footer>Copyright © 2023 Rock of MAM</footer>
         </div>
     );
 }

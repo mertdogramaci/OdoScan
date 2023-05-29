@@ -25,6 +25,7 @@ function UsersPage() {
           <Button tag={Link} to={"/user/create"}>Add User</Button>
         </div>
       </header>
+      <footer>Copyright © 2023 Rock of MAM</footer>
     </div>
   );
 }

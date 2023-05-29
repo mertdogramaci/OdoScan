@@ -33,6 +33,7 @@ function OdometerLogsOfUserPage() {
           <Button tag={Link} to={"/odometerLog/create"}>Add Odometer Log</Button>
         </div>
       </header>
+      <footer>Copyright © 2023 Rock of MAM</footer>
     </div>
   );
 }
