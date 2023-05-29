@@ -4,12 +4,13 @@ import 'package:camera/camera.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_vision/flutter_vision.dart';
-import 'dart:convert';
-import 'package:http/http.dart' as http;
+// import 'dart:convert';
+// import 'package:http/http.dart' as http;
 import 'package:device_info_plus/device_info_plus.dart';
-import 'package:image_crop/image_crop.dart';
-import 'package:flutter_native_image/flutter_native_image.dart';
-
+// import 'package:image_crop/image_crop.dart';
+// import 'package:flutter_native_image/flutter_native_image.dart';
+import 'package:requests/requests.dart';
+import 'package:http/http.dart' as http;
 
 // import 'package:image_cropper/image_cropper.dart';
 // import 'package:image/image.dart' as img;
@@ -447,7 +448,7 @@ class _ServerCameraState extends State<ServerCamera> {
   }
 
   init() async {
-    List<CameraDescription> cameras = await availableCameras();
+    cameras = await availableCameras();
     vision = FlutterVision();
     controller = CameraController(cameras[0], ResolutionPreset.high);
     await controller.initialize();
@@ -477,10 +478,10 @@ class _ServerCameraState extends State<ServerCamera> {
         children: [
           if (pictureFile == null)
             Positioned(
-              left: xOffset,
-              top: yOffset,
-              width: previewSquareSize,
-              height: previewSquareSize,
+              left: 0, //xOffset,
+              top: 0, //yOffset,
+              width: size.width, //previewSquareSize,
+              height: size.height,
               child: cameraView(),
             ),
           if (pictureFile != null)
@@ -541,9 +542,6 @@ class _ServerCameraState extends State<ServerCamera> {
       // Capture a picture as an XFile.
       pictureFile = await controller.takePicture();
 
-      // Crop the captured picture
-      pictureFile = await _cropPicture(pictureFile!, 1.0);
-
       setState(() {
         // Update the UI to display the captured picture.
         pictureFile = pictureFile;
@@ -567,53 +565,65 @@ class _ServerCameraState extends State<ServerCamera> {
         return;
       }
 
+      var request = http.MultipartRequest(
+        'POST',
+        Uri.parse('http://192.168.1.108:5000/detect'),
+      );
+
+      // Set the form fields
       String? deviceId = await _getId();
+      request.fields['device_id'] = deviceId!;
+
+      // Add the file to the request
+      var file = await http.MultipartFile.fromPath('image', pictureFile!.path);
+      request.files.add(file);
+
+      // Send the request
+      var response = await request.send();
+
+      // Handle the response
+      if (response.statusCode == 200) {
+        print('File uploaded successfully');
+      } else {
+        print('Failed to upload file');
+      }
+    } catch (e) {
+    print('Error occurred while sending picture to server: $e');
+  }
+}
+
+      // print(pictureFile!.path);
+
+      // String? deviceId = await _getId();
+      // String url = 'http://192.168.1.108:5000/detect';
+      // var r = await Requests.post(
+      // url,
+      // body: {
+      //   'device_id': deviceId,
+      //   'image': File(pictureFile!.path),
+      // },
+      // bodyEncoding: RequestBodyEncoding.FormURLEncoded);
+      
+      // r.raiseForStatus();
+      // dynamic json = r.json();
 
       // Send the image file to your server using an HTTP request or any other method you prefer.
       // Example: http.post('your_server_url', body: File(pictureFile!.path).readAsBytes());
       // Replace 'your_server_url' with the actual URL of your server endpoint.
 
       // You can perform any additional operations as needed after sending the image to the server.
-    } catch (e) {
-      print('Error occurred while sending picture to server: $e');
-    }
-  }
+
 
   Future<String?> _getId() async {
     var deviceInfo = DeviceInfoPlugin();
-    if (Platform.isIOS) {
+    if (Platform.isIOS) { // import 'dart:io'
       var iosDeviceInfo = await deviceInfo.iosInfo;
       return iosDeviceInfo.identifierForVendor; // unique ID on iOS
-    } else if (Platform.isAndroid) {
+    } else if(Platform.isAndroid) {
       var androidDeviceInfo = await deviceInfo.androidInfo;
       return androidDeviceInfo.androidId; // unique ID on Android
     }
   }
-
-  Future<XFile> _cropPicture(XFile file, double shortSideSize) async {
-    // Read the image file properties
-    final properties = await FlutterNativeImage.getImageProperties(file.path);
-
-    // Calculate the size for resizing the image
-    final int size = properties.width < properties.height ? properties.width : properties.height;
-
-    // Resize the image
-    final resizedImage = await FlutterNativeImage.resizeImage(file.path, width: size, height: size);
-
-    // Calculate the coordinates for cropping a square image
-    final int offsetX = (resizedImage.width - size) ~/ 2;
-    final int offsetY = (resizedImage.height - size) ~/ 2;
-
-    // Crop the image
-    final croppedImage = await FlutterNativeImage.cropImage(resizedImage, offsetX, offsetY, size, size);
-
-    // Save the cropped image to a file
-    final croppedFile = await FlutterNativeImage.writeImageToPath(croppedImage, file.path);
-
-    return XFile(croppedFile);
-  }
-
-
 }
 
 class GetHistory extends StatefulWidget {
@@ -636,13 +646,27 @@ class _GetHistoryState extends State<GetHistory> {
     // Make sure to handle errors and update the state accordingly
     try {
       // Simulating API call with a delay of 2 seconds
-      await Future.delayed(Duration(seconds: 2));
-
+      // await Future.delayed(Duration(seconds: 2));
+      // send get request to server
       String? deviceId = await _getId();
+      String url = 'http://192.168.1.108:5000/detect';
+      var r = await Requests.post(
+      url,
+      body: {
+        'device_id': deviceId,
+      },
+      bodyEncoding: RequestBodyEncoding.FormURLEncoded);
+
+      r.raiseForStatus();
+      dynamic json = r.json();
+      // print(json!['id']);
+
+
+      
       // Sample response data
       List<Map<String, dynamic>> responseData = [
-        {"date": deviceId, "odometer": 50000},
-        {"date": "2023-05-26", "odometer": 49500},
+        {"date": json["device_id"], "odometer": deviceId},
+        {"date": "2023", "odometer": 49500},
         {"date": "2023-05-25", "odometer": 49000},
         {"date": "2023-05-27", "odometer": 50000},
         {"date": "2023-05-26", "odometer": 49500},

@@ -64,7 +64,7 @@ def detect():
                 crop_img = img[int(b[1]):int(b[3]), int(b[0]):int(b[2])]
                 Image.fromarray(crop_img).save("static/cropped.jpg")
                 break
-
+    
     # Load the PaddleOCR model
     ocr = paddleocr.PaddleOCR(lang="en")
 
@@ -75,9 +75,14 @@ def detect():
 
     # Get only the numbers from the OCR result using regex
     milage = re.findall(r'\d+', str_result)[0]
-
+    print("milage: " + milage)
+    print("device_id: " + device_id)
     return jsonify(milage=milage, device_id=device_id)
 
+# def detect():
+#     device_id = request.form['device_id']
+#     print(device_id)
+#     return jsonify(device_id=device_id)
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host="192.168.1.108",port=5000,debug=True)

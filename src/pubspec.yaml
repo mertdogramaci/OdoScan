@@ -32,17 +32,27 @@ dependencies:
     sdk: flutter
   flutter_vision: ^1.0.0
   flutter_speed_dial: ^6.2.0
-  flutter_launcher_icons: ^0.8.1
+  # flutter_launcher_icons: ^0.8.1
+  flutter_launcher_icons: ^0.13.1
+  # image: ^3.0.2
+  image: ^4.0.15
   image_picker: ^0.8.7+3
-  image_cropper: ^1.4.1
-  image: ^2.1.16
+  archive: ^3.2.1
+  crypto: ^3.0.1-nullsafety.0
   camera: ^0.10.4
   path_provider: ^2.0.14
   path: ^1.8.2
   permission_handler: ^10.2.0
   device_info_plus: ^3.2.3
-  image_crop: ^0.4.0
   flutter_native_image: ^0.0.5+3
+  requests: ^4.7.0
+  http: ^0.13.4
+
+
+  # image_crop: ^0.4.0
+  
+  # image_cropper: ^1.4.1
+  # requests: ^4.7.0
   # flutter_datatable: ^1.2.1
 
 
