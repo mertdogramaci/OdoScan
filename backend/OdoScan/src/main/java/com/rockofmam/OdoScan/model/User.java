@@ -49,10 +49,6 @@ public class User {
         this.deviceId = deviceId;
     }
 
-    public void addVehicle(Vehicle vehicle) {
-        vehicles.add(vehicle);
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

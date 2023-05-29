@@ -7,6 +7,7 @@ import com.rockofmam.OdoScan.model.Vehicle;
 import com.rockofmam.OdoScan.service.OdometerLogService;
 import com.rockofmam.OdoScan.service.UserService;
 import com.rockofmam.OdoScan.service.VehicleService;
+import com.rockofmam.OdoScan.struct.MobileLog;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -61,10 +62,17 @@ public class OdometerLogController {
     }
 
     @PostMapping("/mobile")
-    public ResponseEntity<OdometerLog> createOdometerLog(@RequestBody String deviceId, @RequestBody String mileage) {
-        User user = userService.getUserByDeviceId(deviceId);
-        Vehicle vehicle = user.getVehicles().get(user.getVehicles().size() - 1);
-        OdometerLog odometerLog = new OdometerLog(Long.valueOf(mileage), Unit.km, LocalDateTime.now(), vehicle);
+    public ResponseEntity<OdometerLog> createOdometerLog(@RequestBody MobileLog mobileLog) {
+        User user = userService.getUserByDeviceId(mobileLog.getDevice_id());
+        Vehicle vehicle = new Vehicle();
+
+        for (Vehicle vehicle1: vehicleService.getAllVehicle()) {
+            if (vehicle1.getUser().equals(user)) {
+                vehicle = vehicle1;
+            }
+        }
+
+        OdometerLog odometerLog = new OdometerLog(mobileLog.getMileage(), Unit.km, LocalDateTime.now(), vehicle);
         return ResponseEntity.ok(odometerLogService.createOdometerLog(odometerLog));
     }
 
