@@ -22,7 +22,7 @@ function OdometerLogsPage() {
           <AppNavbar/>
           <h2>Odometer Logs List</h2>
           <OdometerLogTable odometerLogs={odometerLogs} setOdometerLogs={setOdometerLogs}/>
-          <Button tag={Link} to={"/vehicle/create"}>Add Vehicle</Button>
+          <Button tag={Link} to={"/vehicle/create"}>Add Odometer Log</Button>
         </div>
       </header>
     </div>
