@@ -42,4 +42,9 @@ public class UserController {
         userService.deleteUserById(id);
         return ResponseEntity.ok().build();
     }
+
+    @GetMapping("/mobile/{deviceId}")
+    public ResponseEntity<User> getUserByDeviceId(@PathVariable String deviceId) {
+        return ResponseEntity.ok(userService.getUserByDeviceId(deviceId));
+    }
 }

@@ -52,4 +52,16 @@ public class UserService {
     public void deleteUserById(Long id) {
         userRepository.deleteById(id);
     }
+
+    public User getUserByDeviceId(String deviceId) {
+        List<User> allUsers = userRepository.findAll();
+
+        for (User user: allUsers) {
+            if (user.getDeviceId().equals(deviceId)) {
+                return user;
+            }
+        }
+
+        throw new UserNotFoundException("User could not found by device id: " + deviceId);
+    }
 }

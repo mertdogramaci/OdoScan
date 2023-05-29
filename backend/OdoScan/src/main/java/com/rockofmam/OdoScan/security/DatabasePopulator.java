@@ -75,23 +75,23 @@ public class DatabasePopulator {
                 () -> new VehicleNotFoundException("Vehicle could not found by id: " + 4L)
         );
 
-        odometerLogService.createOdometerLog(new OdometerLog(10000L, Unit.Kilometers,
+        odometerLogService.createOdometerLog(new OdometerLog(10000L, Unit.km,
                 LocalDate.of(2019, 2, 20).atStartOfDay(), vehicle1));
-        odometerLogService.createOdometerLog(new OdometerLog(1000L, Unit.Kilometers,
+        odometerLogService.createOdometerLog(new OdometerLog(1000L, Unit.km,
                 LocalDate.of(2019, 11, 20).atStartOfDay(), vehicle2));
-        odometerLogService.createOdometerLog(new OdometerLog(11234L, Unit.Kilometers,
+        odometerLogService.createOdometerLog(new OdometerLog(11234L, Unit.km,
                 LocalDate.of(2020, 1, 1).atStartOfDay(), vehicle3));
-        odometerLogService.createOdometerLog(new OdometerLog(15890L, Unit.Kilometers,
+        odometerLogService.createOdometerLog(new OdometerLog(15890L, Unit.km,
                 LocalDate.of(2020, 8, 4).atStartOfDay(), vehicle1));
-        odometerLogService.createOdometerLog(new OdometerLog(29899L, Unit.Kilometers,
+        odometerLogService.createOdometerLog(new OdometerLog(29899L, Unit.km,
                 LocalDate.of(2021, 3, 15).atStartOfDay(), vehicle1));
-        odometerLogService.createOdometerLog(new OdometerLog(100546L, Unit.Kilometers,
+        odometerLogService.createOdometerLog(new OdometerLog(100546L, Unit.km,
                 LocalDate.of(2021, 8, 26).atStartOfDay(), vehicle2));
-        odometerLogService.createOdometerLog(new OdometerLog(12000L, Unit.Kilometers,
+        odometerLogService.createOdometerLog(new OdometerLog(12000L, Unit.km,
                 LocalDate.of(2023, 2, 20).atStartOfDay(), vehicle4));
-        odometerLogService.createOdometerLog(new OdometerLog(150789L, Unit.Kilometers,
+        odometerLogService.createOdometerLog(new OdometerLog(150789L, Unit.km,
                 LocalDate.of(2023, 1, 2).atStartOfDay(), vehicle2));
-        odometerLogService.createOdometerLog(new OdometerLog(45678L, Unit.Kilometers,
+        odometerLogService.createOdometerLog(new OdometerLog(45678L, Unit.km,
                 LocalDate.of(2023, 5, 28).atStartOfDay(), vehicle3));
     }
 }
