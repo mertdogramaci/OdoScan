@@ -27,7 +27,6 @@ function UserTable(probs) {
                     <th>Email</th>
                     <th>Address</th>
                     <th>Device ID</th>
-                    <th>Vehicles of that User</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -43,10 +42,9 @@ function UserTable(probs) {
                             <th>{user.address}</th>
                             <th>{user.deviceId}</th>
                             <th>
-                                <Button size="sm" color="primary" tag={Link} to={"/vehicle/userId/" + user.id}>Show Vehicles</Button>
-                            </th>
-                            <th>
                                 <ButtonGroup>
+                                    <Button size="sm" color="primary" tag={Link} to={"/vehicle/userId/" + user.id}>Show Vehicles</Button>
+                                    <Button size="sm" color="primary" tag={Link} to={"/odometerLog/mobile/" + user.deviceId}>Show Odometer Logs</Button>
                                     <Button size="sm" color="primary" tag={Link} to={"/user/" + user.id}>Edit</Button>
                                     <Button size="sm" color="primary" onClick={() => remove(user.id)}>Delete</Button>
                                 </ButtonGroup>

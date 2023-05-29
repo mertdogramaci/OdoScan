@@ -1,51 +1,99 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams, Link } from "react-router-dom";
-import { Button, Container, Form, FormGroup, Input, Label } from 'reactstrap';
+import { Button, ButtonGroup, Container, Form, FormGroup, Input, Label } from 'reactstrap';
 
 function EditVehicle() {
+    const [vehicleType, setVehicleType] = useState("Car");
+    const defaultButtonColor = "#6c757d";
+    const activeButtonColor = "#0d6efd";
+
     const initialVehicleState = {
-        name: "",
-        surname: "",
-        phone: "",
-        mail: "",
-        address: "",
-        deviceId: ""
+        vehicleType: "Car",
+        brand: "",
+        model: "",
+        purchaseYear: 2023,
+        userId: 0
     };
 
-    const [user, setUser] = useState(initialUserState);
+    const [vehicle, setVehicle] = useState(initialVehicleState);
     const navigate = useNavigate();
     const { id } = useParams();
+    const [isExecuted, setIsExecuted] = useState(false);
 
     useEffect(
         () => {
             if (id !== undefined) {
-                fetch(`/user/${id}`).then(response => response.json()).then(data => setUser(data));
+                fetch(`/vehicle/${id}`).then(response => response.json()).then(data => setVehicle(data));
             }
-        }, [id, setUser, user]
+
+            if (isExecuted !== true) {
+                if (vehicle.vehicleType === "Car") {
+                    setVehicleType(0);
+                } else if (vehicle.vehicleType === "Bus") {
+                    setVehicleType(1);
+                } else if (vehicle.vehicleType === "Van") {
+                    setVehicleType(2);
+                } else if (vehicle.vehicleType === "Truck") {
+                    setVehicleType(3);
+                } else if (vehicle.vehicleType === "Motorcycle") {
+                    setVehicleType(4);
+                }
+
+                setIsExecuted(true);
+            }
+        }, [id, setVehicle, setVehicleType, vehicle, isExecuted]
+    );
+
+    useEffect(
+        () => {
+            setIsExecuted(false);
+        }, []
     );
 
     const handleChange = (event) => {
-        const { name, value } = event.target
+        const { brand, value } = event.target
 
-        setUser({ ...user, [name]: value })
+        setVehicle({ ...vehicle, [brand]: value })
     }
 
     const handleSubmit = async (event) => {
         event.preventDefault();
+        vehicle.vehicleType = vehicleType;
 
-        await fetch('/user' + (user.id ? '/' + user.id : ''), {
-            method: (user.id) ? 'PUT' : 'POST',
+        await fetch('/vehicle' + (vehicle.id ? '/' + vehicle.id : ''), {
+            method: (vehicle.id) ? 'PUT' : 'POST',
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(user)
+            body: JSON.stringify(vehicle)
         });
-        setUser(initialUserState);
-        navigate('/user');
+        setVehicle(initialVehicleState);
+        navigate('/vehicle');
     }
 
-    const title = <h2>{user.id ? 'Edit User' : 'Create a New User'}</h2>;
+    const handleClick = async (event) => {
+        event.preventDefault();
+        for (let index = 0; index < 5; index++) {
+            document.getElementById("vehicleType" + index).style.background = defaultButtonColor;
+        }
+
+        document.getElementById("vehicleType" + event.target.value).style.background = activeButtonColor;
+
+        if (event.target.value === "0") {
+            setVehicleType("Car");
+        } else if (event.target.value === "1") {
+            setVehicleType("Bus");
+        } else if (event.target.value === "2") {
+            setVehicleType("Van");
+        } else if (event.target.value === "3") {
+            setVehicleType("Truck");
+        } else if (event.target.value === "4") {
+            setVehicleType("Motorcycle");
+        }
+    }
+
+    const title = <h2>{vehicle.id ? 'Edit Vehicle' : 'Create a New Vehicle'}</h2>;
 
     return (
         <div>
@@ -53,38 +101,33 @@ function EditVehicle() {
                 {title}
                 <Form onSubmit={handleSubmit}>
                     <FormGroup>
-                        <Label for="name">Name</Label>
-                        <Input type="text" name="name" id="name" value={user.name || ''}
-                            onChange={handleChange} autoComplete="name" />
+                        <Label for="vehicleType">Vehicle Type</Label>
+                        <ButtonGroup onClick={handleClick}>
+                            {vehicleType === 0 ? <Button id="vehicleType0" Style={"background-color: #0d6efd"} value={"0"}>Car</Button> : <Button id="vehicleType0" value={"0"}>Car</Button>}
+                            {vehicleType === 1 ? <Button id="vehicleType1" Style={"background-color: #0d6efd"} value={"1"}>Bus</Button> : <Button id="vehicleType1" value={"1"}>Bus</Button>}
+                            {vehicleType === 2 ? <Button id="vehicleType2" Style={"background-color: #0d6efd"} value={"2"}>Van</Button> : <Button id="vehicleType2" value={"2"}>Van</Button>}
+                            {vehicleType === 3 ? <Button id="vehicleType3" Style={"background-color: #0d6efd"} value={"3"}>Truck</Button> : <Button id="vehicleType3" value={"3"}>Truck</Button>}
+                            {vehicleType === 4 ? <Button id="vehicleType4" Style={"background-color: #0d6efd"} value={"4"}>Motorcycle</Button> : <Button id="vehicleType4" value={"4"}>Motorcycle</Button>}
+                        </ButtonGroup>
                     </FormGroup>
                     <FormGroup>
-                        <Label for="surname">Surname</Label>
-                        <Input type="text" name="surname" id="surname" value={user.surname || ''}
-                            onChange={handleChange} autoComplete="surname" />
+                        <Label for="brand">Brand</Label>
+                        <Input type="text" name="brand" id="namebrand" value={vehicle.brand || ''}
+                            onChange={handleChange} autoComplete="brand" />
                     </FormGroup>
                     <FormGroup>
-                        <Label for="phone">Phone</Label>
-                        <Input type="text" name="phone" id="phone" value={user.phone || ''}
-                            onChange={handleChange} autoComplete="phone" />
+                        <Label for="model">Model</Label>
+                        <Input type="text" name="model" id="model" value={vehicle.model || ''}
+                            onChange={handleChange} autoComplete="model" />
                     </FormGroup>
                     <FormGroup>
-                        <Label for="mail">Email</Label>
-                        <Input type="text" name="mail" id="mail" value={user.mail || ''}
-                            onChange={handleChange} autoComplete="email" />
-                    </FormGroup>
-                    <FormGroup>
-                        <Label for="address">Address</Label>
-                        <Input type="text" name="address" id="address" value={user.address || ''}
-                            onChange={handleChange} autoComplete="address" />
-                    </FormGroup>
-                    <FormGroup>
-                        <Label for="deviceId">Device ID</Label>
-                        <Input type="text" name="deviceId" id="deviceId" value={user.deviceId || ''}
-                            onChange={handleChange} autoComplete="deviceId" />
+                        <Label for="purchaseYear">Purchase Year</Label>
+                        <Input type="text" name="purchaseYear" id="purchaseYear" value={vehicle.purchaseYear || ''}
+                            onChange={handleChange} autoComplete="purchaseYear" />
                     </FormGroup>
                     <FormGroup>
                         <Button color="primary" type="submit">Save</Button>{' '}
-                        <Button color="secondary" tag={Link} to="/user">Cancel</Button>
+                        <Button color="secondary" tag={Link} to="/vehicle">Cancel</Button>
                     </FormGroup>
                 </Form>
             </Container>
