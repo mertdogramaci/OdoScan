@@ -7,6 +7,8 @@ import VehiclesPage from './components/pages/VehiclesPage';
 import VehiclesOfUserPage from './components/pages/VehiclesOfUserPage';
 import OdometerLogsPage from './components/pages/OdometerLogsPage';
 import OdometerLogsOfVehiclePage from './components/pages/OdometerLogsOfVehiclePage';
+import EditUser from './components/pages/EditUser';
+import EditVehicle from './components/pages/EditVehicle';
 
 
 function App() {
@@ -20,6 +22,10 @@ function App() {
           <Route exact element={<VehiclesOfUserPage />} path={"/vehicle/userId/:id"}/>
           <Route exact element={<OdometerLogsPage />} path={"/odometerLog"}/>
           <Route exact element={<OdometerLogsOfVehiclePage />} path={"/odometerLog/vehicleId/:id"}/>
+          <Route exact element={<EditUser />} path={'/user/:id'} />
+          <Route exact element={<EditUser />} path={"/user/create"} />
+          <Route exact element={<EditVehicle/>} path={"/vehicle/create"}/>
+          <Route exact element={<EditVehicle/>} path={"/vehicle/:id"}/>
         </Routes>
       </BrowserRouter>
     </div>
