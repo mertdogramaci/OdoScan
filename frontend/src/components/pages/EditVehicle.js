@@ -12,13 +12,14 @@ function EditVehicle() {
         brand: "",
         model: "",
         purchaseYear: 2023,
-        userId: 0
+        user: null
     };
 
     const [vehicle, setVehicle] = useState(initialVehicleState);
     const navigate = useNavigate();
     const { id } = useParams();
     const [isExecuted, setIsExecuted] = useState(false);
+    const [user, setUser] = useState([]);
 
     useEffect(
         () => {
@@ -41,7 +42,14 @@ function EditVehicle() {
 
                 setIsExecuted(true);
             }
-        }, [id, setVehicle, setVehicleType, vehicle, isExecuted]
+        }, [vehicle, vehicleType]
+    );
+
+    useEffect(
+        () => {
+            console.log(vehicle);
+            setUser(vehicle.user);
+        }, []
     );
 
     useEffect(
@@ -124,6 +132,11 @@ function EditVehicle() {
                         <Label for="purchaseYear">Purchase Year</Label>
                         <Input type="text" name="purchaseYear" id="purchaseYear" value={vehicle.purchaseYear || ''}
                             onChange={handleChange} autoComplete="purchaseYear" />
+                    </FormGroup>
+                    <FormGroup>
+                        <Label for="userId">Owner User ID</Label>
+                        <Input type="text" name="userId" id="userId" value={user || ''}
+                            onChange={handleChange} autoComplete="userId" />
                     </FormGroup>
                     <FormGroup>
                         <Button color="primary" type="submit">Save</Button>{' '}
